@@ -1,14 +1,16 @@
 # LangDict - Spanish/English Dictionary App
 
-A simple Android dictionary app for quick Spanish/English word lookups with bidirectional search capability.
+A comprehensive Android dictionary app for quick Spanish/English word lookups with real-time API-powered translations and bidirectional search capability.
 
 ## Features
 
+- **Real Dictionary API**: Powered by MyMemory Translation API for comprehensive, real-world translations
 - **Bidirectional Search**: Search for words in either Spanish or English
-- **Real-time Results**: See results as you type
-- **Multiple Translations**: Shows all possible translations for ambiguous words
-- **Parts of Speech**: Displays grammatical category (noun, verb, adjective, etc.)
-- **Definitions**: Includes clear definitions for each translation
+- **Real-time Results**: See results as you type with smart debouncing
+- **Multiple Translations**: Shows primary translation plus alternative high-quality matches
+- **Loading States**: Visual feedback during API calls
+- **Offline Fallback**: Falls back to built-in dictionary when offline
+- **Smart Debouncing**: Waits 500ms after you stop typing to avoid excessive API calls
 - **Clean Material Design UI**: Modern, intuitive interface
 
 ## Technical Details
@@ -16,22 +18,34 @@ A simple Android dictionary app for quick Spanish/English word lookups with bidi
 - **Language**: Kotlin
 - **Minimum SDK**: API 24 (Android 7.0)
 - **Target SDK**: API 34 (Android 14)
-- **Architecture**: Simple repository pattern with in-memory data
+- **Architecture**: Repository pattern with API integration
+- **Networking**:
+  - Retrofit 2.9.0 for API calls
+  - OkHttp 4.11.0 for HTTP client
+  - Gson for JSON parsing
+  - Kotlin Coroutines for async operations
 - **UI Components**:
   - Material Design Components
   - RecyclerView for efficient list display
   - TextInputLayout for search interface
   - CardView for result presentation
+  - ProgressBar for loading states
 
-## Dictionary Content
+## Dictionary Source
 
-The app includes over 80 common words with multiple translations, covering:
+**Primary**: [MyMemory Translation API](https://mymemory.translated.net/)
+- Free, community-driven translation API
+- No API key required
+- Provides primary translation plus alternative matches
+- Quality scoring for translation accuracy
+
+**Fallback**: Built-in offline dictionary with 80+ common words covering:
 - Common nouns (house, book, dog, cat, etc.)
 - Essential verbs (eat, drink, go, come, etc.)
 - Basic adjectives (big, small, good, bad, etc.)
 - Everyday vocabulary
 
-Many words include multiple translations to handle language ambiguity. For example:
+The fallback dictionary includes multiple translations to handle language ambiguity:
 - "gato" → "cat" (animal) or "jack" (car tool)
 - "tiempo" → "time" or "weather"
 - "watch" → "ver" (to watch) or "reloj" (timepiece)
@@ -128,19 +142,32 @@ adb logcat | grep LangDict
 
 ## Usage
 
-Simply type a word in Spanish or English into the search box. Results will appear automatically as you type, showing:
-- The matching word
-- Its language (Spanish/English)
-- All possible translations
-- Part of speech for each translation
-- Definition for each meaning
+**Requirements**: Internet connection for API-powered translations (works offline with limited built-in dictionary)
+
+Simply type a word in Spanish or English into the search box:
+
+1. **Type your query** - Start typing any Spanish or English word
+2. **Wait for results** - After you stop typing for 500ms, the app queries the API
+3. **View translations** - Results show:
+   - The word and its source language
+   - Primary translation
+   - Alternative high-quality translations
+   - Translation sources and quality scores
+
+**Tips**:
+- Press the search button on keyboard for immediate results (no 500ms wait)
+- Works bidirectionally - try both English→Spanish and Spanish→English
+- If offline, falls back to built-in dictionary with 80+ common words
 
 ## Future Enhancements
 
 Possible improvements for future versions:
-- Persistent database (Room/SQLite)
-- Offline dictionary API integration
+- ~~Offline dictionary API integration~~ ✓ Implemented with MyMemory API
+- Add more dictionary APIs for richer results (WordReference, Linguee)
+- Cache recent translations for faster repeat lookups
 - Pronunciation audio
-- Example sentences
+- Example sentences and usage context
 - Favorites/History
-- Extended vocabulary coverage
+- Verb conjugations
+- Persistent database (Room/SQLite)
+- Part of speech detection via NLP
