@@ -47,10 +47,38 @@ Many words include multiple translations to handle language ambiguity. For examp
 
 **Prerequisites:**
 - Java JDK 11 or higher
-- Android SDK installed
+- Android SDK installed (see installation instructions below)
 - `ANDROID_HOME` or `ANDROID_SDK_ROOT` environment variable set
 - `adb` in your PATH (from Android SDK platform-tools)
 - Connected Android device or running emulator
+
+**Installing Android SDK:**
+
+If you don't have Android SDK installed:
+
+1. **Using Android Studio** (easiest):
+   - Download from https://developer.android.com/studio
+   - SDK is installed automatically
+   - Set `ANDROID_HOME` to SDK location (typically `~/Android/Sdk` on Linux/Mac)
+
+2. **Using command-line tools only**:
+   ```bash
+   # Download command-line tools from:
+   # https://developer.android.com/studio#command-line-tools-only
+
+   # Extract and set up
+   unzip commandlinetools-linux-*.zip
+   mkdir -p ~/android-sdk/cmdline-tools/latest
+   mv cmdline-tools/* ~/android-sdk/cmdline-tools/latest/
+
+   # Set environment variable
+   export ANDROID_HOME=~/android-sdk
+   export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+   export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+   # Install required packages
+   sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+   ```
 
 **Quick Build and Install:**
 ```bash
